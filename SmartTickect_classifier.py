@@ -58,20 +58,29 @@ def get_priority(text: str) -> str:
 
 
 
-def route_ticket(ticket_id: str, text: str, threshold: float = 0.40):
+
+def route_ticket(ticket_id: str, text: str):
     cleaned = clean_text(text)
     vec = vectorizer.transform([cleaned])
     pred = model.predict(vec)[0]
-    proba = model.predict_proba(vec).max()
+    
+    raw_proba = float(model.predict_proba(vec).max())
+    proba = round(raw_proba, 4)
     priority = get_priority(text)
     
-    # Fallback if confidence is under 40%
-    if proba < threshold:
-        assigned_dept = "HUMAN REVIEW (Low Confidence)"
+    # Dynamic threshold based on urgency
+    if "HIGH" in priority:
+        effective_threshold = 0.35
     else:
-        assigned_dept = pred
+        effective_threshold = 0.45
+    
+    if proba < effective_threshold:
+        assigned_dept = "HUMAN REVIEW (Low Confidence - Top Guess: " + str(pred) + ")"
+    else:
+        assigned_dept = str(pred)
 
-    print(ticket_id, ": ", text, "->", assigned_dept, "(Confidence:", round(proba, 2), ", Priority:", priority, ")")
+    confidence_pct = str(round(proba * 100, 1)) + "%"
+    print(ticket_id + " : " + text + " -> " + assigned_dept + " (Confidence: " + confidence_pct + " , Priority: " + priority + ")")
     return assigned_dept
 
 
@@ -86,7 +95,7 @@ if __name__ == "__main__":
         ("TCK-3004", "What are your business operating hours?"),         
         ("TCK-3005", "The app is completely down and broken urgently")  
     ]
-    
+
     for tid, txt in sample_tickets:
         route_ticket(tid, txt)
 
@@ -94,3 +103,10 @@ if __name__ == "__main__":
     user_text = input("Enter a support ticket description to test: ")
     if user_text.strip():
         route_ticket("TCK-USER", user_text)
+
+    print("\n--- 3. Dataset Vocabulary Samples ---")
+    for dept in df['department'].unique():
+        sample_text = df[df['department'] == dept]['ticket_text'].head(3).tolist()
+        print(f"\n--- Sample {dept} Tickets in your CSV ---")
+        for t in sample_text:
+            print(f"• {t}")
