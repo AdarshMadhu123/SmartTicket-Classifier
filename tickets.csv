@@ -1,0 +1,127 @@
+ticket_text,department
+refund delayed for my last order,BILLING
+invoice not received for this month,BILLING
+wrong amount charged on my card,BILLING
+payment failed while renewing plan,BILLING
+subscription cancelled but still being charged,BILLING
+need a copy of my invoice,BILLING
+I was double billed this month,BILLING
+refund not processed yet,BILLING
+need to update my billing address,BILLING
+discount coupon not applied to invoice,BILLING
+credit card declined during checkout,BILLING
+overcharged on my monthly bill,BILLING
+want to downgrade my current plan,BILLING
+need GST invoice for my purchase,BILLING
+payment gateway showing an error,BILLING
+autopay charged me twice this cycle,BILLING
+what is the status of my refund,BILLING
+question about my billing cycle dates,BILLING
+prorated charge on invoice is unclear,BILLING
+want to change my payment method,BILLING
+annual plan discount was not applied,BILLING
+tax invoice is missing from my account,BILLING
+want to raise a chargeback dispute,BILLING
+payment is pending confirmation since yesterday,BILLING
+invoice date looks incorrect,BILLING
+refund is taking too long to process,BILLING
+please cancel my subscription and issue refund,BILLING
+my card was charged twice for one order,BILLING
+need a receipt for last month's payment,BILLING
+require billing support for my account,BILLING
+charged for a plan I never subscribed to,BILLING
+can you waive the late payment fee,BILLING
+API returns 500 internal server error,TECHNICAL
+app crashes every time I try to login,TECHNICAL
+dashboard page is not loading at all,TECHNICAL
+unable to reset my account password,TECHNICAL
+getting a 404 error on the dashboard,TECHNICAL
+a key feature is not working anymore,TECHNICAL
+mobile app freezes on the home screen,TECHNICAL
+cannot upload files to my account,TECHNICAL
+third party integration is broken,TECHNICAL
+server request is timing out,TECHNICAL
+bug in the export to excel function,TECHNICAL
+login page appears completely blank,TECHNICAL
+two factor authentication code not working,TECHNICAL
+data is not syncing across devices,TECHNICAL
+the app has become very slow lately,TECHNICAL
+getting a database connection error,TECHNICAL
+unable to access my account settings,TECHNICAL
+error occurs when saving my settings,TECHNICAL
+broken link on the pricing page,TECHNICAL
+app keeps crashing after latest update,TECHNICAL
+my API key is not working anymore,TECHNICAL
+webhook is not firing on new events,TECHNICAL
+SSL certificate error on your website,TECHNICAL
+unable to download my monthly report,TECHNICAL
+search function is completely broken,TECHNICAL
+notifications are not showing up,TECHNICAL
+dashboard is showing incorrect data,TECHNICAL
+app does not open on my iPhone,TECHNICAL
+getting error 403 forbidden on api call,TECHNICAL
+unable to connect to the server,TECHNICAL
+attaching a bug report for the checkout page,TECHNICAL
+the export button does nothing when clicked,TECHNICAL
+my leave request was not approved,HR
+salary was not credited this month,HR
+need an employment verification letter,HR
+onboarding documents are still pending,HR
+question about the resignation process,HR
+payslip for last month not received,HR
+need clarification on HR leave policy,HR
+question about my PF withdrawal,HR
+query regarding maternity leave policy,HR
+when is the next promotion cycle,HR
+my performance review has not been scheduled,HR
+need a copy of my offer letter,HR
+my employee ID card was not issued,HR
+query about my health insurance claim,HR
+background verification is still pending,HR
+referral bonus has not been credited,HR
+question about work from home policy,HR
+need to schedule my exit interview,HR
+question about gratuity calculation,HR
+appraisal letter is missing from portal,HR
+new joiner laptop has not been issued,HR
+want to file a complaint about my manager,HR
+my leave balance looks incorrect,HR
+need an experience certificate for my past role,HR
+travel reimbursement has not been processed,HR
+joining bonus is delayed,HR
+requesting a shift change,HR
+need to regularize my attendance,HR
+unable to login to the HR portal,HR
+requesting a copy of the employee handbook,HR
+question about my provident fund statement,HR
+general inquiry about your services,GENERAL
+what are your business hours,GENERAL
+how do I contact your sales team,GENERAL
+I want to give feedback about your product,GENERAL
+interested in a partnership with your company,GENERAL
+this is a media inquiry regarding your company,GENERAL
+can we schedule a demo of your product,GENERAL
+general question about your company,GENERAL
+how do I unsubscribe from the newsletter,GENERAL
+I would like to suggest a new feature,GENERAL
+asking about career opportunities at your company,GENERAL
+want to know more about your pricing plans,GENERAL
+general complaint about the overall service,GENERAL
+I would like to speak to a manager,GENERAL
+requesting a company brochure,GENERAL
+inquiry about an upcoming event,GENERAL
+interested in sponsoring your event,GENERAL
+requesting a callback from your team,GENERAL
+general question about your product offerings,GENERAL
+how do I get started with your platform,GENERAL
+what is your office address,GENERAL
+requesting media coverage information,GENERAL
+vendor inquiry for potential collaboration,GENERAL
+want to schedule a call with your team,GENERAL
+general support needed with getting started,GENERAL
+question about your general refund guidelines,GENERAL
+asking about your product roadmap,GENERAL
+want to subscribe to your newsletter,GENERAL
+need help navigating your website,GENERAL
+want to know more about your team,GENERAL
+just wanted to say thanks for the great product,GENERAL
