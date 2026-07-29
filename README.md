@@ -1,32 +1,33 @@
-# 🎫 SmartTicket Classifier
+🎫 SmartTicket Classifier
 
-A quick and lightweight NLP tool built to automatically route incoming customer support tickets to the right team. Instead of manually sorting through every single email or ticket, this pipeline reads the incoming message, cleans the text, runs it through a machine learning classifier, and assigns it to **Billing**, **HR**, **Technical**, or **General** support.
+A lightweight, end-to-end NLP system built to automatically classify and route incoming customer support tickets to the appropriate team. Instead of manually triaging every request, this pipeline cleans raw text, converts it into TF-IDF vectors, runs a multi-class Logistic Regression model, and routes tickets to **BILLING**, **HR**, **TECHNICAL**, or **GENERAL** support.
 
-It also includes smart operational features like confidence scoring (flagging uncertain predictions for human review) and priority keyword tagging for urgent issues.
+It includes production-ready operational guardrails: a **45% calibrated confidence threshold** for automated routing, a **HUMAN REVIEW** safety fallback, and a **rule-based priority engine** that tags critical issues for immediate attention.
 
 ---
 
 ## ⚡ Key Highlights
 
-- **Smart Text Cleaning:** Uses regex to strip out unwanted special characters, normalize casing, and keep only meaningful words.
-- **TF-IDF Vectorization:** Converts raw text into numerical feature vectors using unigrams and bigrams so the model catches phrase context (e.g., "not working").
-- **Logistic Regression Model:** Handles high-dimensional text data well and gives clean probability scores for every classification.
-- **Human-in-the-Loop Fallback:** If the model's prediction confidence drops below 40%, it routes the ticket to a **HUMAN REVIEW** queue instead of guessing blindly.
-- **Urgent Priority Tagging:** Automatically scans for critical words like *"down"*, *"crash"*, or *"urgent"* and tags the ticket as `HIGH (Urgent)`.
-- **Interactive CLI Demo:** Test individual sample tickets right in your terminal or type custom messages live.
+* **Text Normalization Pipeline:** Uses regex to strip non-alphanumeric noise, normalize casing, and collapse whitespace for consistent feature extraction.
+* **TF-IDF Vectorization:** Converts raw text into numerical feature vectors using unigrams and bigrams (`ngram_range=(1, 2)`) to capture context-heavy phrases (e.g., *"not working"*, *"server error"*).
+* **Calibrated Multi-Class Classifier:** Leverages Logistic Regression to compute output probability distributions across all 4 departments using `predict_proba`.
+* **45% Calibrated Confidence Threshold:** Designed for a 4-class problem (where random chance is 25%). If prediction confidence falls below 45%, the system routes the ticket to a **HUMAN REVIEW** queue to prevent misclassification.
+* **Priority Rule Engine:** Scans incoming descriptions for critical terms like *"down"*, *"crash"*, *"broken"*, or *"urgent"* and marks priority as `HIGH (Urgent)` regardless of ML prediction confidence.
+* **Interactive Interfaces:** Includes both a **Terminal CLI** and a fully responsive **Streamlit Web UI** (`app.py`) for live ticket triage.
 
 ---
 
-## 📊 How It Performed
+## 📊 Performance & Evaluation
 
-I evaluated the model using a stratified train-test split to make sure each department category was fairly represented.
+The model was trained and evaluated on a stratified split to ensure proportional representation across all departments.
 
-- **Overall Test Accuracy:** ~84.6%
+* **Overall Accuracy:** **84.6%**
+* **Test Set Support:** 26 tickets
 
-### Department Performance Breakdown
+### Department Breakdown
 
 | Department | Precision | Recall | F1-Score | Support |
-| :--- | :---: | :---: | :---: | :---: |
+| --- | --- | --- | --- | --- |
 | **BILLING** | 1.00 | 0.71 | 0.83 | 7 |
 | **GENERAL** | 1.00 | 0.83 | 0.91 | 6 |
 | **HR** | 0.83 | 0.83 | 0.83 | 6 |
@@ -37,46 +38,63 @@ I evaluated the model using a stratified train-test split to make sure each depa
 ## 🚀 Getting Started
 
 ### 1. Prerequisites
-Make sure you have Python 3.8+ installed on your machine.
+
+Ensure you have **Python 3.8+** installed on your system.
 
 ### 2. Install Required Packages
-Run this in your terminal to grab the necessary libraries:
 
-```bash
-pip install pandas scikit-learn joblib
-```
+Run the following command in your terminal:
 
-### 3. Run the Script
-Make sure `tickets.csv` is in the same folder as your script, then execute:
+pip install pandas scikit-learn joblib streamlit
 
-```bash
+### 3. Run the CLI Engine
+
+Ensure `tickets.csv` is in your working directory, then execute:
+
 python SmartTickect_classifier.py
-```
+
+### 4. Launch the Streamlit Web Application
+
+To run the web interface, execute:
+
+streamlit run app.py
 
 ---
 
-## 💻 Sample Output
+## 💻 Sample CLI Output
 
-```text
 --- 1. Testing 5 Custom Unseen Sample Tickets ---
-TCK-3001 :  API returns 500 server error on login -> TECHNICAL (Confidence: 0.51 , Priority: NORMAL )
-TCK-3002 :  My invoice was charged twice this month -> BILLING (Confidence: 0.6 , Priority: NORMAL )
-TCK-3003 :  When will my annual leave request be approved? -> HR (Confidence: 0.45 , Priority: NORMAL )
-TCK-3004 :  What are your business operating hours? -> HUMAN REVIEW (Low Confidence) (Confidence: 0.38 , Priority: NORMAL )
-TCK-3005 :  The app is completely down and broken urgently -> TECHNICAL (Confidence: 0.51 , Priority: HIGH (Urgent) )
+TCK-3001 : API returns 500 server error on login -> TECHNICAL (Confidence: 50.8% , Priority: NORMAL)
+TCK-3002 : My invoice was charged twice this month -> BILLING (Confidence: 60.0% , Priority: NORMAL)
+TCK-3003 : When will my annual leave request be approved? -> HR (Confidence: 45.4% , Priority: NORMAL)
+TCK-3004 : What are your business operating hours? -> HUMAN REVIEW (Low Confidence - Top Guess: GENERAL) (Confidence: 38.2% , Priority: NORMAL)
+TCK-3005 : The app is completely down and broken urgently -> TECHNICAL (Confidence: 51.1% , Priority: HIGH (Urgent))
 
 --- 2. Live Interactive Input ---
-Enter a support ticket description to test: autopay charged me twice this cycle
-TCK-USER :  autopay charged me twice this cycle -> BILLING (Confidence: 0.51 , Priority: NORMAL )
-```
+Enter a support ticket description to test: refund delayed for my last order invoice not received
+TCK-USER : refund delayed for my last order invoice not received -> BILLING (Confidence: 57.4% , Priority: NORMAL)
 
 ---
 
-## 🧠 Design Choices & Future Improvements
+## 📂 Project Directory Structure
 
-* **Why Logistic Regression?**  
-  I chose Logistic Regression over Naive Bayes because it produces well-calibrated probability distributions (`predict_proba`). This is essential for building a threshold-based fallback system. It also naturally handles feature overlaps in TF-IDF bigrams without assuming total feature independence.
+SmartTicket-Classifier/
+│
+├── tickets.csv                   # Synthetic dataset (ticket_text, department)
+├── SmartTickect_classifier.py    # Main ML pipeline, training script & CLI
+├── app.py                        # Streamlit web interface
+├── ticket_classifier_model.pkl   # Serialized Logistic Regression model
+├── tfidf_vectorizer.pkl          # Serialized TF-IDF vectorizer
+└── README.md                     # Project documentation
 
-* **What I'd Improve with More Time/Data:**  
-  1. **Transformer Upgrade:** I'd swap the TF-IDF setup for a lightweight fine-tuned transformer like `DistilBERT` or `MiniLM` to better capture deeper semantic context and informal phrasing.  
-  2. **Active Learning Loop:** Set up a feedback loop where tickets sent to the manual review queue are logged, corrected by human agents, and fed back into training to continuously improve the model over time.
+---
+
+## 🧠 Design Choices & Future Roadmap
+
+* **Why Logistic Regression?**
+Unlike tree-based models, Logistic Regression yields well-calibrated class probabilities via sigmoid/softmax functions. This calibration is essential for establishing reliable confidence thresholds and driving fallback workflows.
+* **Why a 45% Threshold?**
+In a 4-class classification problem, random baseline accuracy is 25%. A prediction score >= 45% indicates that the top class holds nearly double the weight of pure chance and dominates the remaining three classes combined.
+* **Future Enhancements:**
+1. **Transformer Backbones:** Upgrade from TF-IDF to a lightweight transformer (e.g., `DistilBERT` or `MiniLM`) to capture deeper semantic intent and handle informal typing/slang.
+2. **Human-in-the-Loop Feedback:** Log tickets routed to `HUMAN REVIEW` and integrate agent corrections into a retrain loop to improve edge-case accuracy over time.
